@@ -13,18 +13,20 @@ function init() {
     var saveButton = $("<button>");
     var hourBox = $("<div>");
     var eventBox = $("<input>");
+    var saveIcon = $("<i class='fa-solid fa-floppy-disk'></i>");
 
     hourBlockEl.addClass("row justify-content-center vw-100 time-block");
     hourBlockEl.append(hourBox);
     hourBlockEl.append(eventBox);
     hourBlockEl.append(saveButton);
 
-    hourBox.addClass("col-1 hour");
+    hourBox.addClass("col-1 d-flex align-items-center hour");
     hourBox.text(workHours[i]);
 
-    eventBox.addClass("col-6 description");
+    eventBox.addClass("col-6 future description");
 
-    saveButton.addClass("col-1 saveBtn");
+    saveButton.append(saveIcon);
+    saveButton.addClass("col-1  saveBtn");
 
     timeBlocksEL.append(hourBlockEl);
   }
