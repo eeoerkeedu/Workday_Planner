@@ -85,32 +85,36 @@ function displayEvents() {
     var hourBoxHour = addBackEvents.hour;
     var hourBoxEvent = addBackEvents.event;
 
-    $(hourBoxHour).val(hourBoxEvent);
+    $("hourBoxHour").val(hourBoxEvent);
   });
 }
 
+// when save button is clicked grab the event data for the other funtions
 function save(event) {
   event.preventDefault();
+  console.log("clicked");
+  var element = $(event.target);
+  console.log(element);
+  var saveEvent = $(element).siblings(".eventbox").attr(hour);
 
-  var saveEvent = $(this).siblings(".eventbox").childern().eq(0).attr(hour);
+  workHours[saveEvent].reminder = $(element).siblings(".eventbox").val();
 
-  workHours[saveEvent].reminder = $(this)
-    .siblings(".eventbox")
-    .childern()
-    .eq(0)
-    .val();
-
-  console.log(saveEvent);
   storeEvents();
   displayEvents();
 }
 
+// function save(event) {
+//   event.preventDefault();
+//   var element = $(event.target);
+//   console.log(element);
+// }
+saveBtnEl.on("click", ".saveBtn", save);
+
 // Formats body of page with time blocks to write in
 workHours.forEach(function (assignAppend) {
-  var hourBlockEl = $("<form>");
+  var hourBlockEl = $("<div>");
   var saveButton = $("<button>");
   var hourBox = $("<div>");
-  var eventBox = $("<div>");
   var eventInput = $("<textarea>");
   var saveIcon = $('<i class="far fa-save fa-lg"></i>');
   var hourBoxHour = assignAppend.time;
@@ -118,17 +122,16 @@ workHours.forEach(function (assignAppend) {
   // creates time block rows with add-ons
   hourBlockEl.addClass("row justify-content-center time-block");
   hourBlockEl.append(hourBox);
-  hourBlockEl.append(eventBox);
+  hourBlockEl.append(eventInput);
   hourBlockEl.append(saveButton);
 
   //sets hour div's and their formatting
   hourBox.addClass("col-1 d-flex align-items-center hour");
   hourBox.text(hourBoxHour);
 
-  //formats main time blocks and adds text field to write in events
-  eventBox.addClass("col-7 future description eventbox");
+  //formats input fields and assigns id's
+  eventInput.addClass("col-7 future description eventbox");
   eventInput.attr("id", assignAppend.hour);
-  eventBox.append(eventInput);
 
   //builds save icon
   saveButton.append(saveIcon);
@@ -145,11 +148,11 @@ workHours.forEach(function (assignAppend) {
     var HH = moment().get("hour");
 
     if (assignAppend.hour < HH) {
-      eventBox.removeClass("future");
-      eventBox.addClass("past");
+      eventInput.removeClass("future");
+      eventInput.addClass("past");
     } else if (assignAppend.hour == HH) {
-      eventBox.removeClass("future");
-      eventBox.addClass("present");
+      eventInput.removeClass("future");
+      eventInput.addClass("present");
     } else {
       return;
     }
@@ -161,7 +164,3 @@ $("#currentDay").text(today.format("MMM Do, YY"));
 
 //initializes page on load
 init();
-
-$(".saveBtn").click((event) => {
-  save(event);
-});
