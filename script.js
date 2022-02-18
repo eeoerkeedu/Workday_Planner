@@ -1,7 +1,8 @@
 var timeBlocksEL = $("#timeblocks");
 var saveBtnEl = $(".saveBtn");
-var eventBoxEL = $(".eventBox");
+var eventInputEL = $(".eventBox");
 var today = moment();
+var apptText = "";
 
 //objects to determine hours blocks and appt info
 var workHours = [
@@ -9,111 +10,121 @@ var workHours = [
     pos: 0,
     time: "8:00 am",
     hour: 08,
-    event: "",
+    apptText: "",
   },
   {
     pos: 1,
     time: "9:00 am",
     hour: 09,
-    event: "",
+    apptText: "",
   },
   {
     pos: 2,
     time: "10:00 am",
     hour: 10,
-    event: "",
+    apptText: "",
   },
   {
     pos: 3,
     time: "11:00 am",
     hour: 11,
-    event: "",
+    apptText: "",
   },
   {
     pos: 4,
     time: "12:00 pm",
     hour: 12,
-    event: "",
+    apptText: "",
   },
   {
     pos: 5,
     time: "1:00 pm",
     hour: 13,
-    event: "",
+    apptText: "",
   },
   {
     pos: 6,
     time: "2:00 pm",
     hour: 14,
-    event: "",
+    apptText: "",
   },
   {
     pos: 7,
     time: "3:00 pm",
     hour: 15,
-    event: "",
+    apptText: "",
   },
   {
     pos: 8,
     time: "4:00 pm",
     hour: 16,
-    event: "",
+    apptText: "",
   },
   {
     pos: 9,
     time: "5:00 pm",
     hour: 17,
-    event: "",
+    apptText: "",
   },
   {
     pos: 10,
     time: "6:00 pm",
     hour: 18,
-    event: "",
+    apptText: "",
   },
 ];
 
 //on page load displays any events in local storage
 function init() {
-  var savedEvent = JSON.parse(localStorage.getItem(workHours));
+  // var savedEvent = JSON.parse(localStorage.getItem(workHours));
 
-  if (savedEvent !== null) {
-    workHours = savedEvent;
-  }
-
-  storeEvents();
+  // storeEvents();
   displayEvents();
 }
 
 // puts object into local storage
 function storeEvents() {
+  // var savedEvent = JSON.parse(localStorage.getItem("workHours"));
+
+  // if (savedEvent !== null) {
+  //   return;
+  // } else {
   localStorage.setItem("workHours", JSON.stringify(workHours));
+  // }
 }
 
 //gets local storage data to the page
 function displayEvents() {
-  workHours.forEach(function (addBackEvents) {
-    var hourBoxHour = addBackEvents.hour;
-    var hourBoxEvent = addBackEvents.event;
+  var savedEvent = JSON.parse(localStorage.getItem("workHours"));
 
-    $(hourBoxHour).val(hourBoxEvent);
+  savedEvent.forEach(function (addBackEvents) {
+    // var hourBoxHour = addBackEvents.hour;
+    i = addBackEvents.hour;
+    var addApptText = addBackEvents.apptText;
+    var hourBoxFind = document.getElementById(i);
+
+    if (addApptText !== null) {
+      $(hourBoxFind).text(addApptText);
+    } else {
+      $(hourBoxFind).text("");
+    }
   });
 }
 
 function save(event) {
-  alert("Event Saved");
+  // alert("Event Saved");
   var element = $(event.target);
 
   var saveEventTime = $(element).siblings(".eventbox").attr("id");
-  console.log(saveEventTime);
+  // console.log(saveEventTime);
 
-  var saveEventText = $(element).siblings(".eventbox").val();
-  console.log(saveEventText);
+  var saveApptText = $(element).siblings(".eventbox").val();
+  // console.log(saveApptText);
 
   var saveEventButton = $(element).attr("id");
-  console.log(saveEventButton);
+  // console.log(saveEventButton);
 
-  workHours[saveEventButton].event = saveEventText;
+  workHours[saveEventButton].apptText = saveApptText;
 
   storeEvents();
   displayEvents();
@@ -175,4 +186,4 @@ $("#currentDay").text(today.format("MMM Do, YY"));
 $(".saveBtn").on("click", save);
 
 //initializes page on load
-// init();
+init();
