@@ -8,109 +8,105 @@ var workHours = [
   {
     time: "8:00 am",
     hour: 08,
-    appt: "",    
+    appt: "",
   },
   {
     time: "9:00 am",
     hour: 09,
-    appt: "",    
+    appt: "",
   },
   {
     time: "10:00 am",
     hour: 10,
-    appt: "",    
+    appt: "",
   },
   {
     time: "11:00 am",
     hour: 11,
-    appt: "",    
+    appt: "",
   },
   {
     time: "12:00 pm",
     hour: 12,
-    appt: "",    
+    appt: "",
   },
   {
     time: "1:00 pm",
     hour: 13,
-    appt: "",    
+    appt: "",
   },
   {
     time: "2:00 pm",
     hour: 14,
-    appt: "",    
+    appt: "",
   },
   {
     time: "3:00 pm",
     hour: 15,
-    appt: "",    
+    appt: "",
   },
   {
     time: "4:00 pm",
     hour: 16,
-    appt: "",    
+    appt: "",
   },
   {
     time: "5:00 pm",
     hour: 17,
-    appt: "",    
+    appt: "",
   },
   {
     time: "6:00 pm",
     hour: 18,
-    appt: "",    
-  }
+    appt: "",
+  },
 ];
 
+// function storeAppts ( {
 
-function storeAppts ( {
-  
-})
+// })
 
-function init() {
-  for (var i = 0; i < workHours.length; i++) {
-    var hourBlockEl = $("<form>");
-    var saveButton = $("<button>");
-    var hourBox = $("<div>");
-    var eventBox = $("<div>");
-    var eventInput = $("<textarea>");
-    var saveIcon = $('<i class="far fa-save fa-lg"></i>');
-    var hourBoxHour = workHours[i];
+workHours.forEach(function (assignAppend) {
+  var hourBlockEl = $("<form>");
+  var saveButton = $("<button>");
+  var hourBox = $("<div>");
+  var eventBox = $("<div>");
+  var eventInput = $("<textarea>");
+  var saveIcon = $('<i class="far fa-save fa-lg"></i>');
+  var hourBoxHour = assignAppend.time;
 
-    hourBlockEl.addClass("row justify-content-center time-block");
-    hourBlockEl.append(hourBox);
-    hourBlockEl.append(eventBox);
-    hourBlockEl.append(saveButton);
+  hourBlockEl.addClass("row justify-content-center time-block");
+  hourBlockEl.append(hourBox);
+  hourBlockEl.append(eventBox);
+  hourBlockEl.append(saveButton);
 
-    hourBox.addClass("col-1 d-flex align-items-center hour");
-    hourBox.text(hourBoxHour + ":00");
+  hourBox.addClass("col-1 d-flex align-items-center hour");
+  hourBox.text(hourBoxHour);
 
-    eventBox.addClass("col-7 future description");
-    eventInput.attr("id", [i]);
-    eventBox.append(eventInput);
+  eventBox.addClass("col-7 future description");
+  eventInput.attr("id", assignAppend.hour);
+  eventBox.append(eventInput);
 
-    saveButton.append(saveIcon);
-    saveButton.addClass("col-1  saveBtn");
+  saveButton.append(saveIcon);
+  saveButton.addClass("col-1  saveBtn");
 
-    eventTimeSet();
-    timeBlocksEL.append(hourBlockEl);
-  }
+  eventTimeSet();
+  timeBlocksEL.append(hourBlockEl);
 
   function eventTimeSet() {
     var HH = moment().get("hour");
-    console.log(HH);
 
-    if (hourBoxHour < HH) {
+    if (assignAppend.hour < HH) {
       eventBox.removeClass("future");
       eventBox.addClass("past");
-    } else if (hourBoxHour == HH) {
+    } else if (assignAppend.hour == HH) {
       eventBox.removeClass("future");
       eventBox.addClass("present");
     } else {
       return;
     }
   }
-}
+});
 
 // function handApptSubmit(event) {
 //   event.preventDefault();
@@ -124,5 +120,3 @@ function init() {
 
 // displays today's date
 $("#currentDay").text(today.format("MMM Do, YY"));
-//initializes planner on page load
-init();
