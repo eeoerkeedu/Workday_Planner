@@ -1,7 +1,7 @@
 var timeBlocksEL = $("#timeblocks");
+var saveBtnEl = $(".saveBtn");
 
-var hours = "8am 9am 10am 11am 12pm 1pm 2pm 3pm 4pm 5pm 6pm";
-var workHours = hours.split(" ");
+var workHours = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18];
 
 // displays today's date
 var today = moment();
@@ -9,26 +9,46 @@ $("#currentDay").text(today.format("MMM Do, YY"));
 
 function init() {
   for (var i = 0; i < workHours.length; i++) {
-    var hourBlockEl = $("<div>");
+    var hourBlockEl = $("<form>");
     var saveButton = $("<button>");
     var hourBox = $("<div>");
     var eventBox = $("<input>");
-    var saveIcon = $("<i class='fa-solid fa-floppy-disk'></i>");
+    // var saveIcon = $('<FontAwesomeIcon icon="fa-regular fa-floppy-disk" />');
+    var hourBoxHour = workHours[i];
 
-    hourBlockEl.addClass("row justify-content-center vw-100 time-block");
-    hourBlockEl.append(hourBox);
-    hourBlockEl.append(eventBox);
-    hourBlockEl.append(saveButton);
+    eventTimeSet();
 
-    hourBox.addClass("col-1 d-flex align-items-center hour");
-    hourBox.text(workHours[i]);
+    //   hourBlockEl.addClass(
+    //     "row justify-content-center vw-100 time-block hourRow"
+    //   );
+    //   hourBlockEl.append(hourBox);
+    //   hourBlockEl.append(eventBox);
+    //   hourBlockEl.append(saveButton);
 
-    eventBox.addClass("col-6 future description");
+    //   hourBox.addClass("col-1 d-flex align-items-center hour");
+    //   hourBox.text(hourBoxHour + ":00");
 
-    saveButton.append(saveIcon);
-    saveButton.addClass("col-1  saveBtn");
+    //   eventBox.addClass("col-6 future description text-dark appointmentInput");
 
-    timeBlocksEL.append(hourBlockEl);
+    //   // saveButton.append(saveIcon);
+    //   saveButton.addClass("col-1 saveBtn");
+
+    //   timeBlocksEL.append(hourBlockEl);
+  }
+
+  function eventTimeSet() {
+    var h = moment().get("hour");
+    console.log(h);
+
+    if (hourBoxHour < h) {
+      eventBox.removeClass("future");
+      eventBox.addClass("past");
+    } else if (hourBoxHour == h) {
+      eventBox.removeClass("future");
+      eventBox.addClass("present");
+    } else {
+      return;
+    }
   }
 }
 
