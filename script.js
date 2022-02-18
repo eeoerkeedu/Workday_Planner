@@ -62,11 +62,7 @@ var workHours = [
   },
 ];
 
-// puts object into local storage
-function storeEvents() {
-  localStorage.setItem("workHours", JSON.stringify(workHours));
-}
-
+//on page load displays any events in local storage
 function init() {
   var savedEvent = JSON.parse(localStorage.getItem(workHours));
 
@@ -74,6 +70,37 @@ function init() {
     workHours = savedEvent;
   }
 
+  storeEvents();
+  displayEvents();
+}
+
+// puts object into local storage
+function storeEvents() {
+  localStorage.setItem("workHours", JSON.stringify(workHours));
+}
+
+//gets local storage data to the page
+function displayEvents() {
+  workHours.forEach(function (addBackEvents) {
+    var hourBoxHour = addBackEvents.hour;
+    var hourBoxEvent = addBackEvents.event;
+
+    $(hourBoxHour).val(hourBoxEvent);
+  });
+}
+
+function save(event) {
+  event.preventDefault();
+
+  var saveEvent = $(this).siblings(".eventbox").childern().eq(0).attr(hour);
+
+  workHours[saveEvent].reminder = $(this)
+    .siblings(".eventbox")
+    .childern()
+    .eq(0)
+    .val();
+
+  console.log(saveEvent);
   storeEvents();
   displayEvents();
 }
@@ -99,7 +126,7 @@ workHours.forEach(function (assignAppend) {
   hourBox.text(hourBoxHour);
 
   //formats main time blocks and adds text field to write in events
-  eventBox.addClass("col-7 future description");
+  eventBox.addClass("col-7 future description eventbox");
   eventInput.attr("id", assignAppend.hour);
   eventBox.append(eventInput);
 
@@ -131,3 +158,10 @@ workHours.forEach(function (assignAppend) {
 
 // displays today's date
 $("#currentDay").text(today.format("MMM Do, YY"));
+
+//initializes page on load
+init();
+
+$(".saveBtn").click((event) => {
+  save(event);
+});
