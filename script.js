@@ -6,56 +6,67 @@ var today = moment();
 //objects to determine hours blocks and appt info
 var workHours = [
   {
+    pos: 0,
     time: "8:00 am",
     hour: 08,
     event: "",
   },
   {
+    pos: 1,
     time: "9:00 am",
     hour: 09,
     event: "",
   },
   {
+    pos: 2,
     time: "10:00 am",
     hour: 10,
     event: "",
   },
   {
+    pos: 3,
     time: "11:00 am",
     hour: 11,
     event: "",
   },
   {
+    pos: 4,
     time: "12:00 pm",
     hour: 12,
     event: "",
   },
   {
+    pos: 5,
     time: "1:00 pm",
     hour: 13,
     event: "",
   },
   {
+    pos: 6,
     time: "2:00 pm",
     hour: 14,
     event: "",
   },
   {
+    pos: 7,
     time: "3:00 pm",
     hour: 15,
     event: "",
   },
   {
+    pos: 8,
     time: "4:00 pm",
     hour: 16,
     event: "",
   },
   {
+    pos: 9,
     time: "5:00 pm",
     hour: 17,
     event: "",
   },
   {
+    pos: 10,
     time: "6:00 pm",
     hour: 18,
     event: "",
@@ -85,30 +96,28 @@ function displayEvents() {
     var hourBoxHour = addBackEvents.hour;
     var hourBoxEvent = addBackEvents.event;
 
-    $("hourBoxHour").val(hourBoxEvent);
+    $(hourBoxHour).val(hourBoxEvent);
   });
 }
 
-// when save button is clicked grab the event data for the other funtions
 function save(event) {
-  event.preventDefault();
-  console.log("clicked");
+  alert("Event Saved");
   var element = $(event.target);
-  console.log(element);
-  var saveEvent = $(element).siblings(".eventbox").attr(hour);
 
-  workHours[saveEvent].reminder = $(element).siblings(".eventbox").val();
+  var saveEventTime = $(element).siblings(".eventbox").attr("id");
+  console.log(saveEventTime);
+
+  var saveEventText = $(element).siblings(".eventbox").val();
+  console.log(saveEventText);
+
+  var saveEventButton = $(element).attr("id");
+  console.log(saveEventButton);
+
+  workHours[saveEventButton].event = saveEventText;
 
   storeEvents();
   displayEvents();
 }
-
-// function save(event) {
-//   event.preventDefault();
-//   var element = $(event.target);
-//   console.log(element);
-// }
-saveBtnEl.on("click", ".saveBtn", save);
 
 // Formats body of page with time blocks to write in
 workHours.forEach(function (assignAppend) {
@@ -135,7 +144,8 @@ workHours.forEach(function (assignAppend) {
 
   //builds save icon
   saveButton.append(saveIcon);
-  saveButton.addClass("col-1  saveBtn");
+  saveButton.attr("id", assignAppend.pos);
+  saveButton.addClass("col-1 saveBtn");
 
   //runs function to check time
   eventTimeSet();
@@ -162,5 +172,7 @@ workHours.forEach(function (assignAppend) {
 // displays today's date
 $("#currentDay").text(today.format("MMM Do, YY"));
 
+$(".saveBtn").on("click", save);
+
 //initializes page on load
-init();
+// init();
