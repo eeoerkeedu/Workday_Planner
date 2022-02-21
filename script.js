@@ -81,6 +81,8 @@ function init() {
 // puts object into local storage
 function storeEvents() {
   localStorage.setItem("workHours", JSON.stringify(workHours));
+
+  
 }
 
 //gets local storage data to the page
@@ -94,8 +96,7 @@ function displayEvents() {
     var addApptText = addBackEvents.apptTxt;
     var hourBoxFind = document.getElementById(i);
 
-    // if (addApptText !== null) {
-      $(hourBoxFind).text(addApptText);
+    $(hourBoxFind).text(addApptText);
     })
   }
 }
@@ -105,16 +106,23 @@ function displayEvents() {
 function save(event) {
   // alert("Event Saved");
   var element = event.target;
-  console.log(element);
+  var buttonPartType = $(element).attr("class");
+  console.log(buttonPartType);
 
-    var saveEventButton = $(element).attr("id");
+  var saveEventButton = $(element).attr("id");
   // console.log(saveEventButton);
   console.log(saveEventButton);
-  
-  
-  var saveApptText = $(element).siblings(".eventbox").val();
-  console.log(saveApptText);
 
+
+  if (buttonPartType === "col-1 saveBtn") {
+    var saveApptText = $(element).siblings(".eventbox").val();
+    console.log(saveApptText);
+  } else {
+    var iconIsAButtonToo =element.parentElement
+    var saveApptText = $(iconIsAButtonToo).siblings(".eventbox").val();
+    console.log(iconIsAButtonToo)
+    console.log(saveApptText);
+  }
 
   if (saveApptText !== undefined) {
     workHours[saveEventButton].apptTxt = saveApptText;
@@ -130,7 +138,7 @@ workHours.forEach(function (assignAppend) {
   var saveButton = $("<button>");
   var hourBox = $("<div>");
   var eventInput = $("<textarea>");
-  var saveIcon = $('<i class="far fa-save fa-lg"></i>');
+  var saveIcon = $('<i class="far fa-save fa-lg icon"></i>');
   var hourBoxHour = assignAppend.time;
 
   // creates time block rows with add-ons
