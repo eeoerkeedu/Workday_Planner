@@ -13,7 +13,7 @@ Add and event and press the save button on hte same row and the page will record
 ## Screenshots
 
 On load, color codes by current hour
-![img](./assets/Capture.PNGassets)
+![img](./assets/Capture.PNG)
 
 Can add and hold names across page load
 ![img](./assets/Capture1.PNG)
