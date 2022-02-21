@@ -87,38 +87,41 @@ function storeEvents() {
 function displayEvents() {
   var savedEvent = JSON.parse(localStorage.getItem("workHours"));
 
-  savedEvent.forEach(function (addBackEvents) {
+  if (savedEvent !== null) {
+    savedEvent.forEach(function (addBackEvents) {
     // var hourBoxHour = addBackEvents.hour;
     i = addBackEvents.hour;
     var addApptText = addBackEvents.apptTxt;
     var hourBoxFind = document.getElementById(i);
 
-    if (addApptText !== null) {
+    // if (addApptText !== null) {
       $(hourBoxFind).text(addApptText);
-    }
-  });
+    })
+  }
 }
+
 
 //when save button is pushed the value is placed in local storage, still buggy
 function save(event) {
   // alert("Event Saved");
-  var element = $(event.target);
-  console.log(element.target);
+  var element = event.target;
+  console.log(element);
 
-  var saveApptText = $(element).siblings(".eventbox").val();
-  // console.log(saveApptText);
-
-  var saveEventButton = $(element).attr("id");
+    var saveEventButton = $(element).attr("id");
   // console.log(saveEventButton);
+  console.log(saveEventButton);
+  
+  
+  var saveApptText = $(element).siblings(".eventbox").val();
+  console.log(saveApptText);
 
-  if (saveApptText === undefined) {
-    return;
-  } else {
+
+  if (saveApptText !== undefined) {
     workHours[saveEventButton].apptTxt = saveApptText;
   }
 
   storeEvents();
-  displayEvents();
+  // displayEvents();
 }
 
 // Formats body of page with time blocks to write in
@@ -146,6 +149,7 @@ workHours.forEach(function (assignAppend) {
 
   //builds save icon
   saveButton.append(saveIcon);
+  saveIcon.attr("id", assignAppend.pos);
   saveButton.attr("id", assignAppend.pos);
   saveButton.addClass("col-1 saveBtn");
 
