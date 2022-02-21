@@ -76,13 +76,18 @@ var workHours = [
 //on page load displays any events in local storage
 function init() {
   displayEvents();
+  
+  //resates the locally saved data before saving it.
+  var savedEvent = JSON.parse(localStorage.getItem("workHours"));
+  if (savedEvent !== null){
+    workHours=savedEvent
+    storeEvents()
+  }
 }
 
 // puts object into local storage
 function storeEvents() {
   localStorage.setItem("workHours", JSON.stringify(workHours));
-
-  
 }
 
 //gets local storage data to the page
@@ -91,7 +96,6 @@ function displayEvents() {
 
   if (savedEvent !== null) {
     savedEvent.forEach(function (addBackEvents) {
-    // var hourBoxHour = addBackEvents.hour;
     i = addBackEvents.hour;
     var addApptText = addBackEvents.apptTxt;
     var hourBoxFind = document.getElementById(i);
@@ -102,26 +106,20 @@ function displayEvents() {
 }
 
 
-//when save button is pushed the value is placed in local storage, still buggy
+//when save button is pushed the value is placed in local storage
 function save(event) {
   // alert("Event Saved");
   var element = event.target;
   var buttonPartType = $(element).attr("class");
-  console.log(buttonPartType);
 
   var saveEventButton = $(element).attr("id");
-  // console.log(saveEventButton);
-  console.log(saveEventButton);
-
 
   if (buttonPartType === "col-1 saveBtn") {
     var saveApptText = $(element).siblings(".eventbox").val();
-    console.log(saveApptText);
+
   } else {
     var iconIsAButtonToo =element.parentElement
     var saveApptText = $(iconIsAButtonToo).siblings(".eventbox").val();
-    console.log(iconIsAButtonToo)
-    console.log(saveApptText);
   }
 
   if (saveApptText !== undefined) {
@@ -129,7 +127,6 @@ function save(event) {
   }
 
   storeEvents();
-  // displayEvents();
 }
 
 // Formats body of page with time blocks to write in
@@ -186,6 +183,7 @@ workHours.forEach(function (assignAppend) {
 // displays today's date
 $("#currentDay").text(today.format("MMM Do, YY"));
 
+//allows the save buttons to preform the save function
 $(".saveBtn").on("click", save);
 
 //initializes page on load
